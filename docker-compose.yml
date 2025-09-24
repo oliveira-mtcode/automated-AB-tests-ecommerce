@@ -1,0 +1,85 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${DB_USER:-abtest}
+      POSTGRES_PASSWORD: ${DB_PASS:-abtest}
+      POSTGRES_DB: ${DB_NAME:-abtest}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  ingestion:
+    build: ./services/ingestion
+    env_file:
+      - ./.env
+    environment:
+      DB_HOST: postgres
+    depends_on:
+      - postgres
+    ports:
+      - "8001:8000"
+
+  analytics:
+    build: ./services/analytics
+    env_file:
+      - ./.env
+    environment:
+      DB_HOST: postgres
+    depends_on:
+      - postgres
+    ports:
+      - "8002:8000"
+
+  modeling:
+    build: ./services/modeling
+    env_file:
+      - ./.env
+    environment:
+      DB_HOST: postgres
+    depends_on:
+      - postgres
+    ports:
+      - "8003:8000"
+
+  results:
+    build: ./services/results
+    env_file:
+      - ./.env
+    environment:
+      DB_HOST: postgres
+    depends_on:
+      - postgres
+    ports:
+      - "8004:8000"
+
+  ui:
+    build: ./ui-ruby
+    env_file:
+      - ./.env
+    environment:
+      RESULTS_API_URL: http://results:8000
+    depends_on:
+      - results
+    ports:
+      - "4567:4567"
+
+  tests:
+    image: postman/newman:alpine
+    volumes:
+      - ./tests/postman:/etc/newman
+    depends_on:
+      - ingestion
+      - analytics
+      - modeling
+      - results
+      - ui
+    entrypoint: ["newman","run","/etc/newman/collection.json","-e","/etc/newman/local.postman_environment.json"]
+
+volumes:
+  pgdata:
+
+

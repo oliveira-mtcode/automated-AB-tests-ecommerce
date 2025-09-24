@@ -1,0 +1,23 @@
+{
+  "info": {"name": "AB Tests E2E", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "item": [
+    {
+      "name": "Health - Ingestion",
+      "request": {"method": "GET", "url": "http://localhost:8001/health"}
+    },
+    {
+      "name": "Health - Analytics",
+      "request": {"method": "GET", "url": "http://localhost:8002/health"}
+    },
+    {
+      "name": "Health - Modeling",
+      "request": {"method": "GET", "url": "http://localhost:8003/health"}
+    },
+    {
+      "name": "Health - Results",
+      "request": {"method": "GET", "url": "http://localhost:8004/health"}
+    }
+  ]
+}
+
+

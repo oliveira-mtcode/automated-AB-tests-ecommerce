@@ -1,0 +1,7 @@
+user_id,experiment_id,variant,event_type,value,timestamp,device,channel
+u1,11111111-1111-1111-1111-111111111111,control,view,1,2025-01-01T00:00:00Z,desktop,seo
+u1,11111111-1111-1111-1111-111111111111,control,click,1,2025-01-01T00:01:00Z,desktop,seo
+u2,11111111-1111-1111-1111-111111111111,treatment,view,1,2025-01-01T00:02:00Z,mobile,ads
+u2,11111111-1111-1111-1111-111111111111,treatment,convert,1,2025-01-01T00:03:00Z,mobile,ads
+u3,11111111-1111-1111-1111-111111111111,control,view,1,2025-01-01T00:04:00Z,tablet,email
+
